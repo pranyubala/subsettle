@@ -16,13 +16,13 @@ export default function Dashboard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMounted, setIsMounted] = useState(false); 
 
-  const { wallet, connected, select } = useWallet();
+  // 1. ADDED publicKey HERE
+  const { wallet, connected, select, publicKey } = useWallet();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  
   useEffect(() => {
     const savedInvoices = localStorage.getItem("substream_v2");
     let loadedInvoices = savedInvoices ? JSON.parse(savedInvoices) : [];
@@ -33,33 +33,36 @@ export default function Dashboard() {
         const dodoPaymentId = urlParams.get("payment_id");
         
         if (dodoPaymentId) {
-      
           const activeInvoiceId = localStorage.getItem("active_invoice");
           let pendingIndex = -1;
 
           if (activeInvoiceId) {
-          
             pendingIndex = loadedInvoices.findIndex((inv: any) => inv.id === activeInvoiceId);
           } else {
-         
             pendingIndex = loadedInvoices.findIndex((inv: any) => inv.status === "pending");
           }
           
           if (pendingIndex !== -1) {
             try {
-              const res = await fetch(`/api/check-status?id=${dodoPaymentId}`);
+              // 2. ADDED THE WALLET STRING AND UPDATED THE FETCH URL HERE
+              const userWalletStr = publicKey ? publicKey.toBase58() : "";
+              const res = await fetch(`/api/check-status?id=${dodoPaymentId}&wallet=${userWalletStr}`);
               const data = await res.json();
 
               if (data.status === "succeeded") {
                 loadedInvoices[pendingIndex].status = "paid";
                 loadedInvoices[pendingIndex].id = dodoPaymentId;
+                
+                if (data.hash) {
+                  loadedInvoices[pendingIndex].hash = data.hash;
+                }
+
               } else if (data.status === "expired" || data.status === "failed" || data.status === "canceled") {
                 loadedInvoices[pendingIndex].status = data.status;
                 loadedInvoices[pendingIndex].id = dodoPaymentId;
               }
               
               localStorage.setItem("substream_v2", JSON.stringify(loadedInvoices));
-          
               localStorage.removeItem("active_invoice");
             } catch (error) {
               console.error("Failed to verify payment:", error);
@@ -75,7 +78,7 @@ export default function Dashboard() {
     };
 
     verifyPayment();
-  }, []);
+  }, [publicKey]); // Added publicKey as a dependency so it updates if the wallet connects late
 
   useEffect(() => {
     if (isLoaded) {
@@ -117,12 +120,9 @@ export default function Dashboard() {
     setLoading(false);
   };
 
-  
   const handleSimulateAIAgent = async () => {
     setIsSimulating(true);
-    
-  
-    const dynamicAmount = Math.floor(Math.random() * (100 - 5 + 1) + 5);
+    const dynamicAmount = Math.floor(Math.random() * (15 - 5 + 1) + 5);
 
     try {
       const response = await fetch("/api/create-link", { 
@@ -139,11 +139,12 @@ export default function Dashboard() {
       if (data.url) {
         const aiInvoice = {
           id: `x402-AUTH-${Math.random().toString(36).substring(2, 9).toUpperCase()}`, 
-          client: `🤖 AI Agent (research_bot_v4)`, // Clean text returned!
+          client: `🤖 AI Agent (research_bot_v4)`, 
           amount: dynamicAmount,
           status: "pending",
           date: new Date().toLocaleDateString(),
           link: data.url,
+          walletAddress: wallet?.adapter?.publicKey?.toBase58() || "",
         };
         
         setInvoices((prev) => [aiInvoice, ...prev]);
@@ -158,7 +159,6 @@ export default function Dashboard() {
   };
 
   const copyToClipboard = (text: string, idToTrack?: string) => {
-   
     if (idToTrack) {
       localStorage.setItem("active_invoice", idToTrack);
     }
@@ -175,12 +175,11 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto space-y-8">
         
         {/* Header */}
-     
         <header className="flex justify-between items-center border-b border-zinc-800 pb-6">
           <div className="flex items-center gap-4">
-           <Link href="/" className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:bg-blue-500 transition-colors">
-  <span className="font-bold text-white text-lg">S</span>
-</Link>
+            <Link href="/" className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:bg-blue-500 transition-colors">
+              <span className="font-bold text-white text-lg">S</span>
+            </Link>
             <Link href="/">
               <h1 className="text-3xl font-bold tracking-tight font-serif hidden sm:block hover:text-zinc-300 transition-colors cursor-pointer">
                 SubStream Protocol
@@ -191,7 +190,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <span className="bg-emerald-950 text-emerald-400 border border-emerald-900 px-4 py-2 rounded-full text-xs font-mono flex items-center gap-2 hidden md:flex">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              Solana Mainnet: Active
+              Solana Devnet: Active
             </span>
             
             {isMounted ? (
@@ -212,7 +211,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-       
         {!connected ? (
           <div className="flex flex-col items-center justify-center py-24 sm:py-32 text-center animate-in fade-in duration-700">
             <div className="w-24 h-24 bg-zinc-900 border border-zinc-800 rounded-3xl flex items-center justify-center mb-8 shadow-2xl relative overflow-hidden">
@@ -229,16 +227,10 @@ export default function Dashboard() {
                </div>
             )}
           </div>
-
         ) : (
-
-       
           <div className="space-y-8 animate-in slide-in-from-bottom-4 fade-in duration-500">
             
-            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
-           
               <div className="md:col-span-1 bg-[#1a1a1a] rounded-2xl p-6 md:p-8 flex flex-col gap-6">
                 <div>
                   <h3 className="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.15em] mb-2">Total Volume Settled</h3>
@@ -265,7 +257,29 @@ export default function Dashboard() {
                 <p className="text-sm text-zinc-400 mb-8 max-w-xl leading-relaxed">
                   Generate a decentralized Dodo checkout link. Your client pays in local fiat, and you receive stablecoins (USDC) directly on Solana with zero wire fees.
                 </p>
-
+                   
+                   {/* --- JUDGE COMMUNICATION BANNER --- */}
+                {/* --- HIGH-VISIBILITY JUDGE BANNER --- */}
+                <div className="mb-8 bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 flex items-start gap-4 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                  <div className="mt-0.5 p-2 bg-amber-500/20 rounded-lg">
+                    <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-base font-bold text-amber-400 mb-2 tracking-wide uppercase">Demo Mode (Solana Devnet)</h4>
+                    <div className="text-sm text-amber-300/90 leading-relaxed space-y-2">
+                      <p className="text-lg">
+                        <strong className="text-amber-200 font-black">⚠️ Max Test Amount: $15.00</strong>
+                      </p>
+                      <p>
+                        This demo uses test USDC on Solana Devnet. Please keep amounts within the limit for a consistent demo experience.
+                          </p>
+                    </div>
+                  </div>
+                </div>
+                {/* --- END BANNER --- */}
+                {/* --- END BANNER --- */}
                 <form 
                   onSubmit={(e) => { 
                     e.preventDefault(); 
@@ -391,6 +405,14 @@ export default function Dashboard() {
                     </pre>
                   </div>
                   
+           {/* NEW AI LIMIT BADGE */}
+  <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg shadow-inner mb-4">
+    <span className="text-base leading-none">⚠️</span>
+    <p>
+      <span className="font-bold">Demo Mode (Devnet):</span> Autonomous agent payouts are strictly capped at $15.00 to preserve test network liquidity.
+    </p>
+  </div>
+
                   <button 
                     type="button" 
                     onClick={handleSimulateAIAgent}
@@ -453,12 +475,31 @@ export default function Dashboard() {
                               </span>
                             )}
                           </td>
+                          
+                          {/* UPDATED VERIFICATION COLUMN WITH SOLSCAN LINK */}
+                          {/* --- BOLD UPGRADED SOLSCAN BUTTON --- */}
+                         {/* --- COMPACT BOLD SOLSCAN BUTTON --- */}
+                       {/* --- COMPACT GREEN SOLSCAN BUTTON (Matching AI Button Hue, Low Effect) --- */}
                           <td className="p-4 text-right">
-                            {inv.link !== "#" ? (
+                            {inv.status === "paid" && inv.hash ? (
+                              <a 
+                                href={`https://solscan.io/tx/${inv.hash}?cluster=devnet`}
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-600 hover:bg-green-500 text-white rounded-md transition-colors text-xs font-bold"
+                                title="View Real Transaction on Solana Devnet"
+                              >
+                                View on Solscan ↗
+                              </a>
+                            ) : inv.status === "paid" ? (
+                              <span className="text-zinc-600 text-sm italic flex items-center justify-end gap-1">
+                                <CheckCircle2 className="w-3.5 h-3.5" /> Verified
+                              </span>
+                            ) : (
                               <div className="flex justify-end gap-2">
                                 <button 
                                   onClick={() => copyToClipboard(inv.link, inv.id)}
-                                  className="p-2 bg-black border border-zinc-700 rounded-lg hover:border-zinc-500 text-zinc-400 hover:text-white transition-colors"
+                                  className="p-2 bg-black border border-zinc-700 rounded-md hover:border-zinc-500 text-zinc-400 hover:text-white transition-colors"
                                   title="Copy Link"
                                 >
                                   <Copy className="w-4 h-4" />
@@ -467,15 +508,13 @@ export default function Dashboard() {
                                   href={inv.link} 
                                   target="_blank" 
                                   rel="noreferrer"
-                                  onClick={() => localStorage.setItem("active_invoice", inv.id)} // Tracks the click!
-                                  className="p-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white transition-colors flex items-center"
+                                  onClick={() => localStorage.setItem("active_invoice", inv.id)}
+                                  className="p-2 bg-blue-600 hover:bg-blue-500 rounded-md text-white transition-colors flex items-center"
                                   title="Open Link"
                                 >
                                   <ExternalLink className="w-4 h-4" />
                                 </a>
                               </div>
-                            ) : (
-                              <span className="text-zinc-600 text-sm italic">Verified on-chain</span>
                             )}
                           </td>
                         </tr>
