@@ -1,85 +1,174 @@
-# ⚡️ SubStream Protocol
-**The Autonomous Fiat-to-Crypto Settlement Layer for the Global Internet.**
+# ⚡️ SubStream Protocol  
+### Global Payments for Humans and AI — Instantly Settled on Solana
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-substream.vercel.app-blue?style=for-the-badge)](https://YOUR_VERCEL_LINK_HERE.vercel.app)
-[![Pitch Video](https://img.shields.io/badge/Pitch_Video-YouTube-red?style=for-the-badge)](https://YOUR_YOUTUBE_LINK_HERE)
-[![Powered By](https://img.shields.io/badge/Powered_By-Solana_|_Dodo_Payments-black?style=for-the-badge)]()
+**Live Demo Video:** *(add your link)*  
+**GitHub Repo:** *(your repo link)*  
 
-> **Built for the Dodo Payments x Solana Global Hackathon.**
-
-## 🚨 The Billion-Dollar Problem
-The next iteration of the internet is being built by a borderless workforce of global freelancers and autonomous AI agents. Yet, they are forced to rely on fractured, legacy financial rails. 
-1. **The Human Tax:** Global creators and freelancers lose 5% to 7% of their income to SWIFT network fees, currency conversion, and banking delays that take 3-5 business days to settle.
-2. **The AI Lockout:** Autonomous AI models can generate immense value (research, code, data), but they cannot open traditional bank accounts. Because they lack financial rails, they cannot autonomously charge humans for their work.
-
-## 💡 The SubStream Solution
-**Zero-friction fiat onboarding. Instant Web3 settlement.** SubStream is a decentralized payment bridge. It allows clients to pay for services in their local fiat currency (via standard credit cards), while the creator or AI agent instantly receives stablecoins (USDC) directly on the Solana blockchain.
-* **Bypass SWIFT:** Eliminate legacy banking fees and cross-border delays entirely.
-* **Instant Settlement:** Funds are bridged and settled on-chain in seconds.
-* **Programmable Revenue:** AI agents can now gate their execution behind SubStream paywalls, autonomously collecting revenue without human intervention.
+Built for the **Dodo Payments x Solana Global Hackathon**
 
 ---
 
-## 🧠 The Technical Flex (Why this is hard)
-Building a fiat-to-crypto bridge requires solving complex Web2/Web3 synchronization issues. Here is how we engineered SubStream to be bulletproof:
-* **Dynamic ATA Routing:** Sending SOL is easy; sending USDC is hard. SubStream uses `@solana/spl-token` to dynamically calculate and locate the user's Associated Token Account (ATA), creating it on the fly if it doesn't exist before transferring funds.
-* **Secure Webhook Verification:** We don't rely on frontend callbacks. Our Next.js Edge API acts as a secure Oracle, listening for Dodo's server-side webhooks to verify fiat clearance before authorizing the Treasury to sign the Solana transaction.
-* **Isolated Treasury Architecture:** The system utilizes a hot-wallet Treasury pattern, keeping the signing authority strictly on the backend. The frontend remains entirely trustless.
+# 🚨 The Problem
 
-## 🏗️ System Architecture Flow
-```text
-[Web2 Client] -> Swipes Credit Card ($50)
+Global payments today are slow, expensive, and fragmented.
+
+- Freelancers lose **5–7%** in fees due to SWIFT, FX conversion, and intermediaries  
+- Settlement takes **3–5 days** across borders  
+- AI agents cannot charge users because they lack financial infrastructure  
+
+> The future internet is global and autonomous — but payments are still stuck in the past.
+
+---
+
+# 💡 The Solution
+
+**SubStream bridges fiat and crypto seamlessly.**
+
+Users pay using **cards or local payment methods**, while recipients instantly receive **USDC on Solana**.
+
+### Key Benefits:
+- ⚡ Instant Settlement — funds arrive in seconds  
+- 🌍 Global Payments — no banking friction  
+- ❌ No SWIFT Dependency — eliminate legacy rails  
+- 🤖 AI Monetization (x402) — agents can request payments autonomously  
+
+---
+
+# 🤖 Autonomous Payments (x402)
+
+SubStream introduces **agent-native payments**.
+
+AI agents can:
+- Generate payment requests  
+- Gate execution behind paywalls  
+- Receive payments without human intervention  
+
+> This unlocks a new model where AI can earn, transact, and operate independently.
+
+---
+
+# 🧠 Key Technical Components
+
+Building a fiat-to-crypto bridge requires synchronizing Web2 and Web3 systems.
+
+### 🔹 Dynamic Token Routing
+SubStream uses `@solana/spl-token` to:
+- Detect user Associated Token Accounts (ATA)  
+- Create them automatically if missing  
+- Ensure seamless USDC delivery  
+
+---
+
+### 🔹 Secure Webhook Verification
+- Payments are verified via **server-side webhooks (Dodo Payments)**  
+- Backend acts as a trusted execution layer  
+- Prevents frontend spoofing or manipulation  
+
+---
+
+### 🔹 Treasury Architecture
+- Uses a backend-controlled treasury wallet  
+- Signing authority remains isolated  
+- Frontend remains trustless  
+
+---
+
+# 🏗️ System Architecture Flow
+
+```
+[Client] → Pays via Card ($50)
       ↓
-[Dodo Payments] -> Clears Fiat -> Deposits to Real Bank Account
+[Dodo Payments] → Processes Fiat
       ↓
-(Secure Webhook Ping)
+(Webhook Trigger)
       ↓
-[SubStream API] -> Verifies Payment -> Unlocks Treasury Private Key
+[SubStream API] → Verifies Payment
       ↓
-[Solana Devnet] -> Mints/Transfers 50 USDC to Connected User Wallet (ATA)
+[Solana Devnet] → Transfers USDC to User Wallet
       ↓
-[SubStream UI] -> Displays Cryptographic Solscan Hash to User
+[Dashboard] → Displays Transaction + Solscan Link
+```
 
-Judge's Testing Guide (Quick Start)
-This application is currently live and optimized for testing on Solana Devnet and Dodo Test Mode.
+---
 
-To experience the full fiat-to-crypto bridge:
+# 🧪 Judge Testing Guide (Quick Start)
 
-Connect a Solana Wallet (e.g., Phantom) to the dashboard and ensure it is set to Devnet.
+This app is live and optimized for **Solana Devnet + Dodo Test Mode**
 
-Click Deploy Smart Invoice (or run the x402 AI simulation).
+### Steps:
 
-Open the generated Dodo payment link.
+1. Connect a **Solana Wallet (Phantom)** and switch to Devnet  
+2. Click **Generate Invoice** or run **AI Agent Demo**  
+3. Open generated payment link  
+4. Use test card:
 
-Use the official Dodo Test Credit Card:
+```
+Card: 4242 4242 4242 4242  
+Expiry: Any future date  
+CVC: 123  
+```
 
-Card Number: 4242 4242 4242 4242
+5. After payment:
+   - Status updates to **Settled**  
+   - Click **View on Solscan** to verify on-chain transaction  
 
-Expiry: Any future date (e.g., 12/30)
+---
 
-CVC: 123
+# 🛡️ Demo Notice
 
-Upon redirect, watch the dashboard update from "Awaiting Fiat" to "Settled". Click the purple View on Solscan button to verify the real on-chain transfer!
+⚠️ Transactions are capped at **$15**  
 
-🛡️ Treasury Security Notice: To preserve our Treasury's Devnet liquidity for all judges and prevent automated draining, manual invoices and AI agent simulations are strictly capped at a $15.00 maximum per transaction.
+Running on **Solana Devnet with test USDC** to ensure consistent demo performance.
 
-💼 The Business Model
-SubStream isn't just a protocol; it's a highly profitable FinTech architecture. As the middle-layer bridge, SubStream captures a 1.5% routing fee on the spread between the fiat ingested via Dodo and the USDC dispensed via Solana, vastly undercutting Stripe Crypto and MoonPay while remaining highly profitable.
+---
 
-💻 Technical Stack
-Frontend: Next.js 14 (App Router), React, Tailwind CSS, Lucide Icons
+# 💼 Business Model
 
-Web3 Infrastructure: @solana/web3.js, @solana/spl-token, Solana Wallet Adapter
+SubStream acts as a **payment routing layer**:
 
-Fiat Processing: Dodo Payments API & Secure Webhooks
+- Captures ~**1.5% fee per transaction**  
+- Undercuts traditional providers like Stripe Crypto and MoonPay  
+- Scales with global SaaS, freelancers, and AI economies  
 
-Deployment & Edge: Vercel
+---
 
-🔮 Future Roadmap (Mainnet & Beyond)
-Mainnet Beta Deployment: Swapping Dodo test keys for live production keys and shifting the RPC endpoint to Solana Mainnet.
+# 💻 Tech Stack
 
-Automated Liquidity Pools: Integrating with Raydium to automatically swap incoming fiat-backed USDC into SOL, BONK, or any token the user prefers upon settlement.
+**Frontend**
+- Next.js 14 (App Router)  
+- React + Tailwind CSS  
 
-x402 SDK: Releasing an npm package allowing AI developers to install our billing protocol directly into their Python/Node agents with two lines of code.
+**Web3**
+- @solana/web3.js  
+- @solana/spl-token  
+- Solana Wallet Adapter  
 
-Built with passion, caffeine, and Web3 magic.
+**Payments**
+- Dodo Payments API  
+- Secure Webhooks  
+
+**Deployment**
+- Vercel  
+
+---
+
+# 🔮 Future Roadmap
+
+- 🚀 Mainnet Deployment — real USDC settlement  
+- 🔁 Auto Swaps — integrate Raydium for token conversion  
+- 📦 x402 SDK — plug-and-play monetization for AI agents  
+
+---
+
+# 🏁 Conclusion
+
+SubStream is not just an invoicing tool.
+
+It is a **payment infrastructure layer** that enables:
+- Instant global transactions  
+- Seamless fiat-to-crypto conversion  
+- Autonomous monetization for AI agents  
+
+---
+
+### Built for the future of global payments on Solana ⚡
