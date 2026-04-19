@@ -9,7 +9,7 @@ const dodo = new DodoPayments({
   environment: "test_mode", 
 });
 
-// THE FIX: Official Circle Devnet USDC Mint (Standard spl-token)
+
 const USDC_MINT = new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
 
 export async function GET(request: Request) {
@@ -30,33 +30,32 @@ export async function GET(request: Request) {
       const treasuryWallet = Keypair.fromSecretKey(secretKeyBytes);
       const userWalletAddress = new PublicKey(targetWalletStr);
 
-      // 1. Calculate ATAs securely without making network calls
+    
       const senderATA = await getAssociatedTokenAddress(USDC_MINT, treasuryWallet.publicKey);
       const receiverATA = await getAssociatedTokenAddress(USDC_MINT, userWalletAddress);
 
-      // 2. Check if the user's account actually exists on the network
+  
       const receiverAccountInfo = await connection.getAccountInfo(receiverATA);
 
-      // Initialize an empty transaction payload
+      
       const transaction = new Transaction();
 
-      // 3. If the user doesn't have an account, pack the creation instruction!
+    
       if (!receiverAccountInfo) {
         transaction.add(
           createAssociatedTokenAccountInstruction(
-            treasuryWallet.publicKey, // Payer
-            receiverATA,              // The account being created
-            userWalletAddress,        // The owner
-            USDC_MINT                 // The official token mint
+            treasuryWallet.publicKey, 
+            receiverATA,              
+            userWalletAddress,        
+            USDC_MINT                 
           )
         );
       }
 
-      // 4. Calculate the exact USDC amount from the fiat receipt
       const fiatAmountPaid = payment.total_amount / 100; 
       const amountInMicroUSDC = fiatAmountPaid * 1000000;
 
-      // 5. Pack the transfer instruction into the SAME payload
+      
       transaction.add(
         createTransferInstruction(
           senderATA,
@@ -66,7 +65,7 @@ export async function GET(request: Request) {
         )
       );
 
-      // 6. Blast the single transaction to the network!
+      
       const signature = await sendAndConfirmTransaction(
         connection, 
         transaction, 

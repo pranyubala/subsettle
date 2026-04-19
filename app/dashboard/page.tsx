@@ -16,7 +16,7 @@ export default function Dashboard() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMounted, setIsMounted] = useState(false); 
 
-  // 1. ADDED publicKey HERE
+  
   const { wallet, connected, select, publicKey } = useWallet();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Dashboard() {
           
           if (pendingIndex !== -1) {
             try {
-              // 2. ADDED THE WALLET STRING AND UPDATED THE FETCH URL HERE
+              
               const userWalletStr = publicKey ? publicKey.toBase58() : "";
               const res = await fetch(`/api/check-status?id=${dodoPaymentId}&wallet=${userWalletStr}`);
               const data = await res.json();
@@ -78,7 +78,7 @@ export default function Dashboard() {
     };
 
     verifyPayment();
-  }, [publicKey]); // Added publicKey as a dependency so it updates if the wallet connects late
+  }, [publicKey]); 
 
   useEffect(() => {
     if (isLoaded) {
@@ -258,8 +258,7 @@ export default function Dashboard() {
                   Generate a decentralized Dodo checkout link. Your client pays in local fiat, and you receive stablecoins (USDC) directly on Solana with zero wire fees.
                 </p>
                    
-                   {/* --- JUDGE COMMUNICATION BANNER --- */}
-                {/* --- HIGH-VISIBILITY JUDGE BANNER --- */}
+                   
                 <div className="mb-8 bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 flex items-start gap-4 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
                   <div className="mt-0.5 p-2 bg-amber-500/20 rounded-lg">
                     <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -278,8 +277,8 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-                {/* --- END BANNER --- */}
-                {/* --- END BANNER --- */}
+              
+               
                 <form 
                   onSubmit={(e) => { 
                     e.preventDefault(); 
@@ -405,7 +404,7 @@ export default function Dashboard() {
                     </pre>
                   </div>
                   
-           {/* NEW AI LIMIT BADGE */}
+           
   <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg shadow-inner mb-4">
     <span className="text-base leading-none">⚠️</span>
     <p>
@@ -476,10 +475,6 @@ export default function Dashboard() {
                             )}
                           </td>
                           
-                          {/* UPDATED VERIFICATION COLUMN WITH SOLSCAN LINK */}
-                          {/* --- BOLD UPGRADED SOLSCAN BUTTON --- */}
-                         {/* --- COMPACT BOLD SOLSCAN BUTTON --- */}
-                       {/* --- COMPACT GREEN SOLSCAN BUTTON (Matching AI Button Hue, Low Effect) --- */}
                           <td className="p-4 text-right">
                             {inv.status === "paid" && inv.hash ? (
                               <a 
