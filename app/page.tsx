@@ -33,7 +33,7 @@ export default function LandingPage() {
               Launch Dashboard <ArrowRight className="w-5 h-5" />
             </Link>
             <a 
-              href="https://github.com/pranyubala/substream" 
+              href="https://github.com/pranyubala/subsettle" 
               target="_blank"
               rel="noreferrer"
               className="w-full sm:w-auto px-8 py-4 bg-zinc-900 border border-zinc-800 text-white rounded-full font-bold text-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
@@ -51,7 +51,7 @@ export default function LandingPage() {
           <div className="flex flex-wrap justify-center items-center gap-12 sm:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             <span className="text-xl font-bold tracking-tighter flex items-center gap-2"><div className="w-6 h-6 bg-current rounded-full"></div>Solana</span>
             <span className="text-xl font-bold tracking-tighter">Dodo Payments</span>
-            <span className="text-xl font-bold tracking-tighter flex items-center gap-2"><Briefcase className="w-6 h-6" /> Superteam Earn</span>
+            <span className="text-xl font-bold tracking-tighter flex items-center gap-2"><Briefcase className="w-6 h-6" /> Superteam India</span>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function LandingPage() {
               <div className="w-10 h-10 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20">
                 <Check className="w-5 h-5 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-bold text-emerald-100">The SubStream Solution</h3>
+              <h3 className="text-2xl font-bold text-emerald-100">The SubSettle Solution</h3>
             </div>
             <ul className="space-y-6 text-zinc-300 relative z-10">
               <li className="flex items-start gap-3">
@@ -154,18 +154,18 @@ export default function LandingPage() {
           <div className="space-y-6">
             <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-2xl"></div>
-              <h3 className="text-lg font-bold text-white mb-2 relative z-10">Crypto already exists. Why do I need SubStream?</h3>
-              <p className="text-zinc-400 leading-relaxed relative z-10">Because your clients don't want to learn how to use crypto. If you ask a traditional corporate client to "send USDC to my wallet," you introduce massive friction—they have to register on an exchange, pass KYC, wait for fiat clearing, and figure out gas fees. SubStream abstracts all of that away. Your client sees a standard Web2 checkout page and pays with a credit card. You receive USDC instantly. We handle the complex fiat-to-crypto bridging in the background so you never lose a deal.</p>
+              <h3 className="text-lg font-bold text-white mb-2 relative z-10">Crypto already exists. Why do I need SubSettle?</h3>
+              <p className="text-zinc-400 leading-relaxed relative z-10">Because your clients don't want to learn how to use crypto. If you ask a traditional corporate client to "send USDC to my wallet," you introduce massive friction—they have to register on an exchange, pass KYC, wait for fiat clearing, and figure out gas fees. SubSettle abstracts all of that away. Your client sees a standard Web2 checkout page and pays with a credit card. You receive USDC instantly. We handle the complex fiat-to-crypto bridging in the background so you never lose a deal.</p>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl">
               <h3 className="text-lg font-bold text-white mb-2">Do my clients need to own crypto to pay my invoice?</h3>
-              <p className="text-zinc-400 leading-relaxed">Absolutely not. SubStream uses Dodo Payments on the frontend. Your client sees a standard checkout page and pays with Apple Pay, Google Pay, or a standard credit card. We handle the conversion to USDC in the background.</p>
+              <p className="text-zinc-400 leading-relaxed">Absolutely not. SubSettle uses Dodo Payments on the frontend. Your client sees a standard checkout page and pays with Google Pay, or a standard credit card. We handle the conversion to USDC in the background.</p>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl">
               <h3 className="text-lg font-bold text-white mb-2">How does the autonomous AI billing (x402) actually work?</h3>
-              <p className="text-zinc-400 leading-relaxed">Let's say you build an AI that writes custom code. When the AI finishes the code, instead of giving it away for free, the AI hits the SubStream API. We return a payment link. The AI sends that link to the user. Once the user pays, our webhook triggers, and the AI releases the code. The funds settle directly to the developer.</p>
+              <p className="text-zinc-400 leading-relaxed">Let's say you build an AI that writes custom code. When the AI finishes the code, instead of giving it away for free, the AI hits the SubSettle API. We return a payment link. The AI sends that link to the user. Once the user pays, our webhook triggers, and the AI releases the code. The funds settle directly to the developer.</p>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl">
@@ -183,7 +183,7 @@ export default function LandingPage() {
             <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
               <span className="font-bold text-black text-xs">S</span>
             </div>
-            <span className="font-semibold text-sm tracking-wide">SubStream &copy; 2026</span>
+            <span className="font-semibold text-sm tracking-wide">SubSettle &copy; 2026</span>
           </div>
           <p className="text-sm text-zinc-500 font-medium">Fiat infrastructure by Dodo Payments</p>
         </div>

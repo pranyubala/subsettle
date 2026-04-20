@@ -27,7 +27,6 @@ export default function Dashboard() {
     const savedInvoices = localStorage.getItem("substream_v2");
     let loadedInvoices = savedInvoices ? JSON.parse(savedInvoices) : [];
 
-    // Set initial load state right away so the UI doesn't look empty
     setInvoices(loadedInvoices);
     setIsLoaded(true);
 
@@ -48,7 +47,7 @@ export default function Dashboard() {
     const checkPaymentInterval = setInterval(async () => {
       try {
         const userWalletStr = publicKey ? publicKey.toBase58() : "";
-        const timestamp = Date.now(); // The ultimate cache-buster
+        const timestamp = Date.now(); 
         
         const res = await fetch(`/api/check-status?id=${dodoPaymentId}&wallet=${userWalletStr}&t=${timestamp}`, { cache: "no-store" });
         const data = await res.json();
@@ -64,10 +63,10 @@ export default function Dashboard() {
 
           localStorage.setItem("substream_v2", JSON.stringify(loadedInvoices));
           localStorage.removeItem("active_invoice");
-          setInvoices([...loadedInvoices]); // Force UI update
+          setInvoices([...loadedInvoices]); 
           window.history.replaceState({}, document.title, window.location.pathname);
           
-          clearInterval(checkPaymentInterval); // Stop checking!
+          clearInterval(checkPaymentInterval); 
           
         } else if (data.status === "expired" || data.status === "failed" || data.status === "canceled") {
           loadedInvoices[pendingIndex].status = data.status;
@@ -75,10 +74,10 @@ export default function Dashboard() {
           
           localStorage.setItem("substream_v2", JSON.stringify(loadedInvoices));
           localStorage.removeItem("active_invoice");
-          setInvoices([...loadedInvoices]); // Force UI update
+          setInvoices([...loadedInvoices]); 
           window.history.replaceState({}, document.title, window.location.pathname);
           
-          clearInterval(checkPaymentInterval); // Stop checking!
+          clearInterval(checkPaymentInterval); 
         }
         
       
@@ -192,7 +191,7 @@ export default function Dashboard() {
             </Link>
             <Link href="/">
               <h1 className="text-3xl font-bold tracking-tight font-serif hidden sm:block hover:text-zinc-300 transition-colors cursor-pointer">
-                SubStream Protocol
+                SubSettle Protocol
               </h1>
             </Link>
           </div>
@@ -227,7 +226,7 @@ export default function Dashboard() {
               <div className="absolute inset-0 bg-blue-500/10 blur-xl"></div>
               <Wallet className="w-10 h-10 text-blue-400 relative z-10" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Initialize SubStream Terminal</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Initialize SubSettle Terminal</h2>
             <p className="text-zinc-400 max-w-md mx-auto mb-10 text-lg">
               Authenticate via your Solana wallet to access global fiat-to-crypto invoicing and deploy x402 autonomous billing agents.
             </p>
@@ -403,7 +402,7 @@ export default function Dashboard() {
                       cURL
                     </div>
                     <pre className="overflow-x-auto mt-2 leading-relaxed">
-<span className="text-pink-400">curl</span> -X POST https://api.substream.finance/v1/x402 \ <br/>
+<span className="text-pink-400">curl</span> -X POST https://api.subsettle.finance/v1/x402 \ <br/>
   -H <span className="text-green-300">"Authorization: Bearer sk_live_sub..."</span> \ <br/>
   -H <span className="text-green-300">"Content-Type: application/json"</span> \ <br/>
   -d <span className="text-yellow-300">{"{"}</span> <br/>

@@ -6,7 +6,7 @@ import AppWalletProvider from "../components/ui/AppWalletProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SubStream - Global Invoicing",
+  title: "SubSettle - Global Invoicing",
   description: "Cross-border payments powered by Solana and Dodo.",
 };
 

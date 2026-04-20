@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         },
       ],
       billing_currency: "USD",
-      return_url: "https://substream-amber.vercel.app/dashboard",
+      return_url: "https://subsettle-protocol.vercel.app/dashboard",
     });
 
     return NextResponse.json(

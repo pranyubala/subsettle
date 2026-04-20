@@ -11,7 +11,7 @@ export default function Navbar() {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.5)] group-hover:bg-blue-500 transition-colors">
             <span className="font-bold text-white text-lg">S</span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-white">SubStream</span>
+          <span className="text-xl font-bold tracking-tight text-white">SubSettle</span>
         </Link>
 
         {/* SCROLLING NAVIGATION LINKS */}
@@ -35,7 +35,7 @@ export default function Navbar() {
             FAQ
           </Link>
           <a 
-            href="https://github.com/pranyubala/substream" 
+            href="https://github.com/pranyubala/subsettle" 
             target="_blank" 
             rel="noreferrer"
             className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
