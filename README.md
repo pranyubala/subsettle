@@ -3,10 +3,19 @@
 
 SubSettle is a fiat-to-crypto payment layer that enables both humans and AI agents to receive instant, on-chain payments.
 
-🎬 Live Demo: https://youtu.be/P5IU_QlRwYo?si=32m9DFG34arti7uT
+🎬 Live Demo: https://youtu.be/QdDVQARddQw?si=XW5Qa8ReuPkD8wUB
+
 🌐 Live App:  https://subsettle-protocol.vercel.app/
 
 Built for the Superteam India x Dodo Payments Hackathon
+
+## 🚀 Quick Overview
+
+SubSettle bridges Web2 payments and Web3 payouts.
+
+Clients pay using a normal credit card via Dodo Payments, while freelancers receive instant USDC directly in their Solana wallet.
+
+No crypto knowledge required for the client — fully on-chain settlement for the receiver.
 
 ---
 
@@ -24,7 +33,7 @@ Global payments today are slow, expensive, and fragmented.
 
 ## 💡 The Solution
 
-SubSettle bridges fiat and crypto seamlessly.
+SubSettle seamlessly bridges fiat and crypto
 
 Users pay via cards using Dodo Payments, while recipients receive USDC instantly on Solana.
 
@@ -88,21 +97,22 @@ SubSettle enables AI agents to monetize their work, unlocking a future where AI 
 
 ---
 
+
 ## 🏗️ System Architecture
 
-
-[Client] → Pays via Link ($50)
-↓
+```
+[Client] → Pays via Link ($15)
+      ↓
 [Dodo Payments] → Processes Fiat Checkout
-↓
+      ↓
 (Webhook Trigger)
-↓
+      ↓
 [SubSettle API] → Verifies Payment securely
-↓
+      ↓
 [Solana Devnet] → Transfers USDC to User Wallet
-↓
+      ↓
 [Dashboard] → Displays Transaction + Explorer Link
-
+```
 
 ---
 
@@ -115,7 +125,9 @@ SubSettle enables AI agents to monetize their work, unlocking a future where AI 
 1. Connect a Solana wallet (Phantom)  
 2. Switch your network to Devnet  
 3. Generate an invoice OR run the AI agent demo  
-4. Open the generated payment link  
+4. Open the generated payment link
+5. Fill in any required contact information and billing address to complete the checkout
+
 
 ### Use the Test Card:
 
@@ -185,4 +197,4 @@ SubSettle redefines global payments by combining:
 - Instant crypto settlement  
 - AI-native monetization  
 
-> A payment layer built for both humans and autonomous systems.
+> A payment layer built for both humans and autonomous systems
